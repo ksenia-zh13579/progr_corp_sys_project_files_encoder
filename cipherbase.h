@@ -13,13 +13,13 @@ class CipherBase
 {
     Q_OBJECT
 protected:
-    QByteArray iv, key;
+    QByteArray key;
     EVP_CIPHER_CTX* ctx;
 
     static void handleError(QString message);
 public:
     // CipherBase();
-    CipherBase(QByteArray key = NULL, QByteArray iv = NULL);
+    CipherBase(QByteArray key = NULL);
     ~CipherBase();
 
     static const int KEY_SIZE = 32;

@@ -5,34 +5,18 @@
 #include <openssl/err.h>
 
 #include <QFile>
-#include <QVector>
+#include <QDebug>
 
 Encoder::Encoder(): CipherBase()
 {
-    generateKey(key);
-    generateIV(iv);
+    key = generateRandSec(KEY_SIZE);
 }
 
-bool Encoder::generateKey(QByteArray& key)
+QByteArray Encoder::generateRandSec(int secSize)
 {
-    key.resize(KEY_SIZE);
-    if (RAND_bytes(reinterpret_cast<unsigned char*>(key.data()), key.size()) != 1)
-    {
-        handleError("Ошибка при генерации ключа!");
-        return false;
-    }
-    return true;
-}
-
-bool Encoder::generateIV(QByteArray& iv)
-{
-    iv.resize(IV_SIZE);
-    if (RAND_bytes(reinterpret_cast<unsigned char*>(iv.data()), iv.size()) != 1)
-    {
-        handleError("Ошибка при генерации идентификатора!");
-        return false;
-    }
-    return true;
+    QByteArray randSec(secSize, '\0');
+    RAND_bytes(reinterpret_cast<unsigned char*>(randSec.data()), randSec.size());
+    return randSec;
 }
 
 bool Encoder::encryptFile(const QString& inputPath, const QString& outputPath)
@@ -52,6 +36,9 @@ bool Encoder::encryptFile(const QString& inputPath, const QString& outputPath)
         return false;
     }
 
+    QByteArray iv(IV_SIZE, '\0');
+    iv = generateRandSec(IV_SIZE);
+
     outFile.write(iv.data(), iv.size());
 
     const unsigned char* keyData = reinterpret_cast<const unsigned char*>(key.constData());
@@ -63,22 +50,26 @@ bool Encoder::encryptFile(const QString& inputPath, const QString& outputPath)
         return false;
     }
 
-    QByteArray inBuffer(BUFFER_SIZE, '\0');
+    QByteArray inBuffer;
     QByteArray outBuffer(BUFFER_SIZE + EVP_MAX_BLOCK_LENGTH, '\0');
+
+    int bytesRead = 0;
     int outLen = 0;
 
     while(!inFile.atEnd())
     {
-        inBuffer = inFile.read(BUFFER_SIZE);
+        int toRead = qMin(BUFFER_SIZE, inFile.size() - bytesRead);
+        inBuffer = inFile.read(toRead);
 
         if (EVP_EncryptUpdate(ctx, reinterpret_cast<unsigned char*>(outBuffer.data()), &outLen,
-                              reinterpret_cast<unsigned char*>(inBuffer.data()), BUFFER_SIZE) != 1)
+                              reinterpret_cast<const unsigned char*>(inBuffer.constData()), inBuffer.size()) != 1)
         {
             handleError("Ошибка во время шифрования данных");
             return false;
         }
 
         outFile.write(outBuffer.constData(), outLen);
+        bytesRead += inBuffer.size();
     }
 
     if (EVP_EncryptFinal_ex(ctx, reinterpret_cast<unsigned char*>(outBuffer.data()), &outLen) != 1)
@@ -89,7 +80,7 @@ bool Encoder::encryptFile(const QString& inputPath, const QString& outputPath)
 
     outFile.write(outBuffer.constData(), outLen);
 
-    QByteArray tag(16, '\0');
+    QByteArray tag(TAG_SIZE, '\0');
 
     if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, tag.size(),
                             tag.data()) != 1)
@@ -100,6 +91,7 @@ bool Encoder::encryptFile(const QString& inputPath, const QString& outputPath)
 
     outFile.write(tag.constData(), tag.size());
 
+    qDebug() << "Файл успешно расшифровани!";
     return true;
 }
 

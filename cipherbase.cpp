@@ -2,7 +2,7 @@
 
 #include <QDebug>
 
-CipherBase::CipherBase(QByteArray key, QByteArray iv) : key(key), iv(iv)
+CipherBase::CipherBase(QByteArray key) : key(key)
 {
     ctx = EVP_CIPHER_CTX_new();
     if (!ctx)
