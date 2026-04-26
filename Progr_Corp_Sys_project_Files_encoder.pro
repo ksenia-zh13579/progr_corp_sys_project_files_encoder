@@ -1,5 +1,7 @@
-LIBS += -lssl -lcrypto
 QT       += core gui
+
+INCLUDEPATH += C:/msys64/ucrt64/include
+LIBS += -L C:/msys64/ucrt64/lib -lssl -lcrypto
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

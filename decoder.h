@@ -2,12 +2,14 @@
 #define DECODER_H
 
 #include "cipherbase.h"
+#include <QByteArray>
 
 class Decoder : public CipherBase
 {
     Q_OBJECT
 public:
-    Decoder();
+    Decoder(QByteArray key, QByteArray iv);
+    bool decryptFile(const QString& inputPath, const QString& outputFile);
 };
 
 #endif // DECODER_H
