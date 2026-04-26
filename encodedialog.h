@@ -17,6 +17,10 @@ public:
 
 private:
     Ui::EncodeDialog *ui;
+
+    QString inPath;
+    QString outPath;
+    QByteArray key;
 };
 
 #endif // ENCODEDIALOG_H

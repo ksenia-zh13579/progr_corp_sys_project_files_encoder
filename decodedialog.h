@@ -17,6 +17,10 @@ public:
 
 private:
     Ui::DecodeDialog *ui;
+
+    QString inPath;
+    QString outPath;
+    QByteArray key;
 };
 
 #endif // DECODEDIALOG_H

@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "encodedialog.h";
+#include "decodedialog.h";
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -17,7 +19,15 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_encodeBtn_clicked();
+
+    void on_decodeBtn_clicked();
+
 private:
     Ui::MainWindow *ui;
+
+    EncodeDialog* encodew;
+    DecodeDialog* decodew;
 };
 #endif // MAINWINDOW_H

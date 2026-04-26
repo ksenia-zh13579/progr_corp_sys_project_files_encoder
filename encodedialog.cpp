@@ -6,6 +6,8 @@ EncodeDialog::EncodeDialog(QWidget *parent)
     , ui(new Ui::EncodeDialog)
 {
     ui->setupUi(this);
+
+
 }
 
 EncodeDialog::~EncodeDialog()
