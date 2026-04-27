@@ -5,6 +5,8 @@ LIBS += -L C:/msys64/ucrt64/lib -lssl -lcrypto
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+INCLUDEPATH += $$PWD/include
+
 CONFIG += c++17
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -12,29 +14,28 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    cipherbase.cpp \
-    decodedialog.cpp \
-    decoder.cpp \
-    encodedialog.cpp \
-    encodedialog.cpp \
-    encoder.cpp \
-    main.cpp \
-    mainwindow.cpp
+    src/cipherbase.cpp \
+    src/decodedialog.cpp \
+    src/decoder.cpp \
+    src/encodedialog.cpp \
+    src/encodedialog.cpp \
+    src/encoder.cpp \
+    src/main.cpp \
+    src/mainwindow.cpp
 
 HEADERS += \
-    cipherbase.h \
-    decodedialog.h \
-    decoder.h \
-    encodedialog.h \
-    encodedialog.h \
-    encoder.h \
-    mainwindow.h
+    include/cipherbase.h \
+    include/decodedialog.h \
+    include/decoder.h \
+    include/encodedialog.h \
+    include/encodedialog.h \
+    include/encoder.h \
+    include/mainwindow.h
 
 FORMS += \
-    decodedialog.ui \
-    encodedialog.ui \
-    encodedialog.ui \
-    mainwindow.ui
+    ui/decodedialog.ui \
+    ui/encodedialog.ui \
+    ui/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

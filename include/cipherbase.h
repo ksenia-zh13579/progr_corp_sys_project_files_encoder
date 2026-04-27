@@ -9,14 +9,14 @@
 #include <openssl/rand.h>
 #include <openssl/err.h>
 
-class CipherBase
+class CipherBase: public QObject
 {
     Q_OBJECT
 protected:
     QByteArray key;
     EVP_CIPHER_CTX* ctx;
 
-    static void handleError(QString message);
+    void handleError(QString message);
 public:
     // CipherBase();
     CipherBase(QByteArray key = NULL);
@@ -28,6 +28,8 @@ public:
     static const int BUFFER_SIZE = 1024 * 1024;
 signals:
     void errorMessage(QString message);
+    void startWorking();
+    void finishWorking();
 };
 
 #endif // CIPHERBASE_H

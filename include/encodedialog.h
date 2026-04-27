@@ -1,6 +1,7 @@
 #ifndef ENCODEDIALOG_H
 #define ENCODEDIALOG_H
 
+#include "encoder.h"
 #include <QDialog>
 
 namespace Ui {
@@ -21,6 +22,16 @@ private:
     QString inPath;
     QString outPath;
     QByteArray key;
+    Encoder* encoder;
+
+signals:
+    void filesChosen();
+private slots:
+    void on_downloadFileBtn_clicked();
+    void on_chooseSaveBtn_clicked();
+
+    void onFilesChosen();
+    void on_encodeBtn_clicked();
 };
 
 #endif // ENCODEDIALOG_H

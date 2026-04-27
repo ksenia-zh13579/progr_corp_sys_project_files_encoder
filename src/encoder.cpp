@@ -19,8 +19,15 @@ QByteArray Encoder::generateRandSec(int secSize)
     return randSec;
 }
 
+QByteArray Encoder::getKey()
+{
+    return key;
+}
+
 bool Encoder::encryptFile(const QString& inputPath, const QString& outputPath)
 {
+    emit startWorking();
+
     QFile inFile(inputPath);
     QFile outFile(outputPath);
 
@@ -91,7 +98,9 @@ bool Encoder::encryptFile(const QString& inputPath, const QString& outputPath)
 
     outFile.write(tag.constData(), tag.size());
 
-    qDebug() << "Файл успешно расшифровани!";
+    qDebug() << "Файл успешно расшифрован!";
+    emit finishWorking();
+
     return true;
 }
 

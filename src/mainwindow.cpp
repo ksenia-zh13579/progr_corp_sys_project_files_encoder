@@ -9,6 +9,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     encodew = new EncodeDialog(this);
     decodew = new DecodeDialog(this);
+
+    encodew->hide();
+    encodew->hide();
 }
 
 MainWindow::~MainWindow()
