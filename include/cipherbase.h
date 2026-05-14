@@ -18,18 +18,19 @@ protected:
 
     void handleError(QString message);
 public:
-    // CipherBase();
-    CipherBase(const QByteArray& key = QByteArray());
+    CipherBase();
     ~CipherBase();
 
     static const int KEY_SIZE;
     static const int IV_SIZE;
     static const int TAG_SIZE;
     static const int BUFFER_SIZE;
+
+    QByteArray getKey();
+    void setKey(const QByteArray& key);
 signals:
     void errorMessage(QString message);
-    void startWorking(QString message);
-    void finishWorking(QString message);
+    void sendIndicator(QString message);
 };
 
 #endif // CIPHERBASE_H

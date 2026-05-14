@@ -2,6 +2,7 @@
 #define DECODEDIALOG_H
 
 #include <QDialog>
+#include "decoder.h"
 
 namespace Ui {
 class DecodeDialog;
@@ -21,6 +22,19 @@ private:
     QString inPath;
     QString outPath;
     QByteArray key;
+    Decoder* decoder;
+
+signals:
+    void allEntered();
+
+private slots:
+    void onAllEntered();
+    void onError(QString message);
+    void setIndicator(QString message);
+    void on_downloadFileBtn_clicked();
+    void on_chooseSaveBtn_clicked();
+    void on_keyInput_editingFinished();
+    void on_decodeBtn_clicked();
 };
 
 #endif // DECODEDIALOG_H

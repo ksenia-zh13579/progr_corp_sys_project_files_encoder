@@ -14,9 +14,6 @@ protected:
 public:
     Encoder();
     bool encryptFile(const QString& inputPath, const QString& outputPath);
-    QByteArray getKey();
-signals:
-    void sendIndicator(QString message);
 };
 
 #endif // ENCODER_H

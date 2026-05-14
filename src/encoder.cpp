@@ -7,8 +7,10 @@
 #include <QFile>
 #include <QDebug>
 
-Encoder::Encoder(): CipherBase(generateRandSec(KEY_SIZE))
-{}
+Encoder::Encoder(): CipherBase()
+{
+    this->key = generateRandSec(KEY_SIZE);
+}
 
 QByteArray Encoder::generateRandSec(int secSize)
 {
@@ -18,11 +20,6 @@ QByteArray Encoder::generateRandSec(int secSize)
         return QByteArray();
     }
     return randSec;
-}
-
-QByteArray Encoder::getKey()
-{
-    return key;
 }
 
 bool Encoder::encryptFile(const QString& inputPath, const QString& outputPath)

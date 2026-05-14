@@ -6,11 +6,11 @@
 #include <QFile>
 #include <QDebug>
 
-Decoder::Decoder(const QByteArray& key): CipherBase(key) {}
+Decoder::Decoder(): CipherBase() {}
 
 bool Decoder::decryptFile(const QString& inputPath, const QString& outputPath)
 {
-    emit startWorking("Дешифруем...");
+    emit sendIndicator("Дешифруем...");
 
     QFile inFile(inputPath);
     QFile outFile(outputPath);
@@ -31,7 +31,7 @@ bool Decoder::decryptFile(const QString& inputPath, const QString& outputPath)
 
     if (iv.size() != IV_SIZE)
     {
-        handleError("Ошибка присчитывании идентификатора из файла");
+        handleError("Ошибка присчитывании идентификатора из файла!");
         return false;
     }
 
@@ -110,6 +110,6 @@ bool Decoder::decryptFile(const QString& inputPath, const QString& outputPath)
     }
 
     qDebug() << "Файл успешно расшифрован!";
-    emit finishWorking("Готово!");
+    emit sendIndicator("Готово!");
     return true;
 }

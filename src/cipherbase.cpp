@@ -7,7 +7,7 @@ const int CipherBase::IV_SIZE = 12;
 const int CipherBase::TAG_SIZE = 16;
 const int CipherBase::BUFFER_SIZE = 1024 * 1024;
 
-CipherBase::CipherBase(const QByteArray& key) : key(key)
+CipherBase::CipherBase()
 {
     ctx = EVP_CIPHER_CTX_new();
     if (!ctx)
@@ -26,4 +26,14 @@ void CipherBase::handleError(QString message)
 {
     qCritical() << message << '\n';
     emit errorMessage(message);
+}
+
+QByteArray CipherBase::getKey()
+{
+    return key;
+}
+
+void CipherBase::setKey(const QByteArray& key)
+{
+    this->key = key;
 }

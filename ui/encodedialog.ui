@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>349</height>
+    <width>494</width>
+    <height>421</height>
    </rect>
   </property>
   <property name="font">
@@ -22,9 +22,9 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>130</y>
-     <width>121</width>
-     <height>31</height>
+     <y>160</y>
+     <width>261</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -40,8 +40,8 @@
    <property name="geometry">
     <rect>
      <x>110</x>
-     <y>30</y>
-     <width>181</width>
+     <y>40</y>
+     <width>231</width>
      <height>81</height>
     </rect>
    </property>
@@ -71,9 +71,9 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>250</y>
-     <width>121</width>
-     <height>31</height>
+     <y>300</y>
+     <width>261</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -92,9 +92,9 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>190</y>
-     <width>201</width>
-     <height>31</height>
+     <y>230</y>
+     <width>261</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -109,66 +109,78 @@
   <widget class="QLineEdit" name="keyInput">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>310</y>
-     <width>211</width>
-     <height>20</height>
+     <x>240</x>
+     <y>370</y>
+     <width>221</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="readOnly">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="QLabel" name="keyLabel">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>310</y>
-     <width>131</width>
-     <height>21</height>
+     <y>370</y>
+     <width>171</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string>Ключ шифрования:</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLabel" name="fileName">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>130</y>
-     <width>111</width>
-     <height>31</height>
+     <x>330</x>
+     <y>160</y>
+     <width>131</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
     <string>Не выбран</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="resultName">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>190</y>
+     <x>330</x>
+     <y>230</y>
      <width>131</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
     <string>Не выбран</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
-  <widget class="QLabel" name="IndicatorLabel">
+  <widget class="QLabel" name="indicatorLabel">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>255</y>
-     <width>111</width>
-     <height>21</height>
+     <x>330</x>
+     <y>300</y>
+     <width>131</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
     <string>Шифруем...</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
  </widget>

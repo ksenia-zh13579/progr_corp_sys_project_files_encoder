@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>342</height>
+    <width>516</width>
+    <height>401</height>
    </rect>
   </property>
   <property name="font">
@@ -21,9 +21,9 @@
   <widget class="QLabel" name="decodeTitle">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>110</x>
      <y>20</y>
-     <width>201</width>
+     <width>291</width>
      <height>81</height>
     </rect>
    </property>
@@ -45,14 +45,17 @@
    <property name="wordWrap">
     <bool>true</bool>
    </property>
+   <property name="margin">
+    <number>5</number>
+   </property>
   </widget>
   <widget class="QLineEdit" name="keyInput">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>250</y>
-     <width>181</width>
-     <height>21</height>
+     <x>300</x>
+     <y>270</y>
+     <width>201</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="readOnly">
@@ -62,14 +65,17 @@
   <widget class="QLabel" name="fileName">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>310</x>
      <y>130</y>
-     <width>111</width>
-     <height>31</height>
+     <width>141</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
     <string>Не выбран</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QPushButton" name="decodeBtn">
@@ -79,9 +85,9 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>300</y>
-     <width>121</width>
-     <height>31</height>
+     <y>340</y>
+     <width>181</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -100,9 +106,9 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>190</y>
-     <width>201</width>
-     <height>31</height>
+     <y>200</y>
+     <width>241</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -119,8 +125,8 @@
     <rect>
      <x>20</x>
      <y>130</y>
-     <width>121</width>
-     <height>31</height>
+     <width>241</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -135,43 +141,52 @@
   <widget class="QLabel" name="keyLabel">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>250</y>
-     <width>171</width>
-     <height>21</height>
+     <x>30</x>
+     <y>270</y>
+     <width>231</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
     <string>Введите ключ шифрования:</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
    <property name="wordWrap">
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="saveTitle">
+  <widget class="QLabel" name="resultName">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>190</y>
-     <width>111</width>
-     <height>31</height>
+     <x>310</x>
+     <y>200</y>
+     <width>141</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
     <string>Не выбран</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLabel" name="indicatorLabel">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>305</y>
+     <x>270</x>
+     <y>340</y>
      <width>131</width>
-     <height>21</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
     <string>Дешифруем...</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
  </widget>

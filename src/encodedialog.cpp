@@ -9,11 +9,13 @@ EncodeDialog::EncodeDialog(QWidget *parent)
     , ui(new Ui::EncodeDialog)
 {
     ui->setupUi(this);
+    encoder = new Encoder();
 
     ui->encodeBtn->setEnabled(false);
-    ui->IndicatorLabel->hide();
+    ui->indicatorLabel->hide();
     ui->keyLabel->hide();
     ui->keyInput->hide();
+    ui->keyInput->setReadOnly(true);
 
     connect(this, SIGNAL(filesChosen()), SLOT(onFilesChosen()));
     connect(encoder, SIGNAL(errorMessage(QString)), this, SLOT(onError(QString)));
@@ -28,23 +30,29 @@ EncodeDialog::~EncodeDialog()
 
 void EncodeDialog::onError(QString message)
 {
+    setIndicator("Ошибка!");
     QMessageBox::critical(this, "Результат шифрования", "Ошибка: " + message);
 }
 
 void EncodeDialog::setIndicator(QString message)
 {
-    ui->IndicatorLabel->setText(message);
+    ui->indicatorLabel->setText(message);
+}
+
+void EncodeDialog::onFilesChosen()
+{
+    ui->encodeBtn->setEnabled(true);
 }
 
 void EncodeDialog::on_downloadFileBtn_clicked()
 {
     ui->encodeBtn->setEnabled(false);
-    ui->IndicatorLabel->hide();
+    ui->indicatorLabel->hide();
     ui->keyLabel->hide();
     ui->keyInput->hide();
-    outPath = QString();
 
     inPath = QFileDialog::getOpenFileName(this, "Выбрете файл...", "C:/");
+
     if (inPath != QString())
     {
         QFileInfo fileInfo(inPath);
@@ -59,9 +67,10 @@ void EncodeDialog::on_downloadFileBtn_clicked()
 void EncodeDialog::on_chooseSaveBtn_clicked()
 {
     outPath = QFileDialog::getSaveFileName(this, "Сохранить файл...", "C:/PCS_Project_encoded/encoded.txt", "Text files (*.txt)");
+
     if (outPath != QString())
     {
-        QFileInfo fileInfo(inPath);
+        QFileInfo fileInfo(outPath);
         ui->resultName->setText(fileInfo.fileName());
     }
 
@@ -69,17 +78,11 @@ void EncodeDialog::on_chooseSaveBtn_clicked()
         emit filesChosen();
 }
 
-void EncodeDialog::onFilesChosen()
-{
-    ui->encodeBtn->setEnabled(true);
-}
-
 
 void EncodeDialog::on_encodeBtn_clicked()
 {
-    ui->IndicatorLabel->show();
+    ui->indicatorLabel->show();
 
-    encoder = new Encoder();
     bool result = encoder->encryptFile(inPath, outPath);
 
     if (result)
