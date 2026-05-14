@@ -6,10 +6,12 @@
 #include <QFile>
 #include <QDebug>
 
-Decoder::Decoder(QByteArray key): CipherBase(key) {}
+Decoder::Decoder(const QByteArray& key): CipherBase(key) {}
 
 bool Decoder::decryptFile(const QString& inputPath, const QString& outputPath)
 {
+    emit startWorking("Дешифруем...");
+
     QFile inFile(inputPath);
     QFile outFile(outputPath);
 
@@ -36,6 +38,11 @@ bool Decoder::decryptFile(const QString& inputPath, const QString& outputPath)
     const unsigned char* keyData = reinterpret_cast<const unsigned char*>(key.constData());
     const unsigned char* ivData = reinterpret_cast<const unsigned char*>(iv.constData());
 
+    if (EVP_CIPHER_CTX_reset(ctx) != 1) {
+        handleError("Ошибка сброса контекста!");
+        return false;
+    }
+
     if (EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), nullptr,
                            keyData, ivData) != 1)
     {
@@ -43,7 +50,7 @@ bool Decoder::decryptFile(const QString& inputPath, const QString& outputPath)
         return false;
     }
 
-    int encryptedSize = inFile.size() - IV_SIZE - TAG_SIZE;
+    qint64 encryptedSize = inFile.size() - IV_SIZE - TAG_SIZE;
 
     if (encryptedSize < 0)
     {
@@ -55,11 +62,11 @@ bool Decoder::decryptFile(const QString& inputPath, const QString& outputPath)
     QByteArray outBuffer;
     outBuffer.resize(BUFFER_SIZE + EVP_MAX_BLOCK_LENGTH);
 
-    int bytesRead = 0;
+    qint64 bytesRead = 0;
     int outLen = 0;
 
     while (bytesRead < encryptedSize) {
-        int toRead = qMin(BUFFER_SIZE, encryptedSize - bytesRead);
+        qint64 toRead = qMin(BUFFER_SIZE, encryptedSize - bytesRead);
         inBuffer = inFile.read(toRead);
 
         if (inBuffer.isEmpty()) break;
@@ -102,6 +109,7 @@ bool Decoder::decryptFile(const QString& inputPath, const QString& outputPath)
         outFile.write(outBuffer.constData(), outLen);
     }
 
-    qDebug() << "Файл успешно расшифровани!";
+    qDebug() << "Файл успешно расшифрован!";
+    emit finishWorking("Готово!");
     return true;
 }

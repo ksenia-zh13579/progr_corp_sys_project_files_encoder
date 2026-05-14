@@ -2,7 +2,12 @@
 
 #include <QDebug>
 
-CipherBase::CipherBase(QByteArray key) : key(key)
+const int CipherBase::KEY_SIZE = 32;
+const int CipherBase::IV_SIZE = 12;
+const int CipherBase::TAG_SIZE = 16;
+const int CipherBase::BUFFER_SIZE = 1024 * 1024;
+
+CipherBase::CipherBase(const QByteArray& key) : key(key)
 {
     ctx = EVP_CIPHER_CTX_new();
     if (!ctx)
@@ -20,5 +25,5 @@ CipherBase::~CipherBase()
 void CipherBase::handleError(QString message)
 {
     qCritical() << message << '\n';
-    // emit errorMessage(message);
+    emit errorMessage(message);
 }

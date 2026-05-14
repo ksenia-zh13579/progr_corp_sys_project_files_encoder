@@ -19,17 +19,17 @@ protected:
     void handleError(QString message);
 public:
     // CipherBase();
-    CipherBase(QByteArray key = NULL);
+    CipherBase(const QByteArray& key = QByteArray());
     ~CipherBase();
 
-    static const int KEY_SIZE = 32;
-    static const int IV_SIZE = 12;
-    static const int TAG_SIZE = 16;
-    static const int BUFFER_SIZE = 1024 * 1024;
+    static const int KEY_SIZE;
+    static const int IV_SIZE;
+    static const int TAG_SIZE;
+    static const int BUFFER_SIZE;
 signals:
     void errorMessage(QString message);
-    void startWorking();
-    void finishWorking();
+    void startWorking(QString message);
+    void finishWorking(QString message);
 };
 
 #endif // CIPHERBASE_H

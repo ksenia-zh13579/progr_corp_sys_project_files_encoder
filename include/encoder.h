@@ -10,11 +10,13 @@ class Encoder : public CipherBase
 {
     Q_OBJECT
 protected:
-    static QByteArray generateRandSec(int secSize);
+    QByteArray generateRandSec(int secSize);
 public:
     Encoder();
     bool encryptFile(const QString& inputPath, const QString& outputPath);
     QByteArray getKey();
+signals:
+    void sendIndicator(QString message);
 };
 
 #endif // ENCODER_H

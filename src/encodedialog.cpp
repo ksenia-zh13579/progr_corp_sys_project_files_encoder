@@ -2,6 +2,7 @@
 #include "ui_encodedialog.h"
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QFileInfo>
 
 EncodeDialog::EncodeDialog(QWidget *parent)
     : QDialog(parent)
@@ -15,12 +16,24 @@ EncodeDialog::EncodeDialog(QWidget *parent)
     ui->keyInput->hide();
 
     connect(this, SIGNAL(filesChosen()), SLOT(onFilesChosen()));
+    connect(encoder, SIGNAL(errorMessage(QString)), this, SLOT(onError(QString)));
+    connect(encoder, SIGNAL(sendIndicator(QString)), this, SLOT(setIndicator(QString)));
 }
 
 EncodeDialog::~EncodeDialog()
 {
     delete ui;
     delete encoder;
+}
+
+void EncodeDialog::onError(QString message)
+{
+    QMessageBox::critical(this, "Результат шифрования", "Ошибка: " + message);
+}
+
+void EncodeDialog::setIndicator(QString message)
+{
+    ui->IndicatorLabel->setText(message);
 }
 
 void EncodeDialog::on_downloadFileBtn_clicked()
@@ -34,7 +47,8 @@ void EncodeDialog::on_downloadFileBtn_clicked()
     inPath = QFileDialog::getOpenFileName(this, "Выбрете файл...", "C:/");
     if (inPath != QString())
     {
-        ui->fileName->setText(inPath);
+        QFileInfo fileInfo(inPath);
+        ui->fileName->setText(fileInfo.fileName());
     }
 
     if (inPath != QString() && outPath != QString())
@@ -47,7 +61,8 @@ void EncodeDialog::on_chooseSaveBtn_clicked()
     outPath = QFileDialog::getSaveFileName(this, "Сохранить файл...", "C:/PCS_Project_encoded/encoded.txt", "Text files (*.txt)");
     if (outPath != QString())
     {
-        ui->resultName->setText(outPath);
+        QFileInfo fileInfo(inPath);
+        ui->resultName->setText(fileInfo.fileName());
     }
 
     if (inPath != QString() && outPath != QString())
@@ -71,7 +86,7 @@ void EncodeDialog::on_encodeBtn_clicked()
     {
         ui->keyLabel->show();
         ui->keyInput->show();
-        ui->keyInput->setText(encoder->getKey());
+        ui->keyInput->setText(encoder->getKey().toHex());
 
         QMessageBox::information(this, "Результат шифрования", "Файл был успешно зашифрован.\nРезультат шифрования был сохранен в выбранном для него файле.");
     }
@@ -80,4 +95,5 @@ void EncodeDialog::on_encodeBtn_clicked()
         QMessageBox::critical(this, "Результат шифрования", "Ошибка! Не удалось зашифровать файл.");
     }
 }
+
 

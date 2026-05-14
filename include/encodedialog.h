@@ -27,10 +27,12 @@ private:
 signals:
     void filesChosen();
 private slots:
+    void onFilesChosen();
+    void onError(QString message);
+    void setIndicator(QString message);
+
     void on_downloadFileBtn_clicked();
     void on_chooseSaveBtn_clicked();
-
-    void onFilesChosen();
     void on_encodeBtn_clicked();
 };
 

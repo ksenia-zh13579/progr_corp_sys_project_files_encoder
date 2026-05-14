@@ -11,14 +11,14 @@ MainWindow::MainWindow(QWidget *parent)
     decodew = new DecodeDialog(this);
 
     encodew->hide();
-    encodew->hide();
+    decodew->hide();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
     delete encodew;
-    delete encodew;
+    delete decodew;
 }
 
 void MainWindow::on_encodeBtn_clicked()

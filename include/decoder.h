@@ -8,7 +8,7 @@ class Decoder : public CipherBase
 {
     Q_OBJECT
 public:
-    Decoder(QByteArray key);
+    Decoder(const QByteArray& key);
     bool decryptFile(const QString& inputPath, const QString& outputFile);
 };
 

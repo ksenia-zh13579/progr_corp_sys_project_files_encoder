@@ -1,8 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "encodedialog.h";
-#include "decodedialog.h";
+#include "encodedialog.h"
+#include "decodedialog.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE

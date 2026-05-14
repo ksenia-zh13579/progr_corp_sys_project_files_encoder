@@ -7,15 +7,16 @@
 #include <QFile>
 #include <QDebug>
 
-Encoder::Encoder(): CipherBase()
-{
-    key = generateRandSec(KEY_SIZE);
-}
+Encoder::Encoder(): CipherBase(generateRandSec(KEY_SIZE))
+{}
 
 QByteArray Encoder::generateRandSec(int secSize)
 {
     QByteArray randSec(secSize, '\0');
-    RAND_bytes(reinterpret_cast<unsigned char*>(randSec.data()), randSec.size());
+    if (RAND_bytes(reinterpret_cast<unsigned char*>(randSec.data()), randSec.size()) != 1) {
+        handleError("Ошибка генерации случайных данных!");
+        return QByteArray();
+    }
     return randSec;
 }
 
@@ -26,7 +27,12 @@ QByteArray Encoder::getKey()
 
 bool Encoder::encryptFile(const QString& inputPath, const QString& outputPath)
 {
-    emit startWorking();
+    emit sendIndicator("Шифруем...");
+
+    if (EVP_CIPHER_CTX_reset(ctx) != 1) {
+        handleError("Ошибка сброса контекста шифрования!");
+        return false;
+    }
 
     QFile inFile(inputPath);
     QFile outFile(outputPath);
@@ -45,6 +51,10 @@ bool Encoder::encryptFile(const QString& inputPath, const QString& outputPath)
 
     QByteArray iv(IV_SIZE, '\0');
     iv = generateRandSec(IV_SIZE);
+    if (iv.isEmpty()) {
+        handleError("Не удалось сгенерировать IV");
+        return false;
+    }
 
     outFile.write(iv.data(), iv.size());
 
@@ -60,12 +70,12 @@ bool Encoder::encryptFile(const QString& inputPath, const QString& outputPath)
     QByteArray inBuffer;
     QByteArray outBuffer(BUFFER_SIZE + EVP_MAX_BLOCK_LENGTH, '\0');
 
-    int bytesRead = 0;
+    qint64 bytesRead = 0;
     int outLen = 0;
 
     while(!inFile.atEnd())
     {
-        int toRead = qMin(BUFFER_SIZE, inFile.size() - bytesRead);
+        qint64 toRead = qMin(BUFFER_SIZE, inFile.size() - bytesRead);
         inBuffer = inFile.read(toRead);
 
         if (EVP_EncryptUpdate(ctx, reinterpret_cast<unsigned char*>(outBuffer.data()), &outLen,
@@ -98,9 +108,8 @@ bool Encoder::encryptFile(const QString& inputPath, const QString& outputPath)
 
     outFile.write(tag.constData(), tag.size());
 
-    qDebug() << "Файл успешно расшифрован!";
-    emit finishWorking();
-
+    qDebug() << "Файл успешно зашифрован!";
+    emit sendIndicator("Готово!");
     return true;
 }
 
