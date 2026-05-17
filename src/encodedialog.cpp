@@ -16,6 +16,7 @@ EncodeDialog::EncodeDialog(QWidget *parent)
     ui->keyLabel->hide();
     ui->keyInput->hide();
     ui->keyInput->setReadOnly(true);
+    ui->keyInput->setEchoMode(QLineEdit::Password);
 
     connect(this, SIGNAL(filesChosen()), SLOT(onFilesChosen()));
     connect(encoder, SIGNAL(errorMessage(QString)), this, SLOT(onError(QString)));
@@ -85,17 +86,20 @@ void EncodeDialog::on_encodeBtn_clicked()
 
     bool result = encoder->encryptFile(inPath, outPath);
 
+    QString inputFileName = ui->fileName->text();
+    QString outFileName = ui->resultName->text();
+
     if (result)
     {
         ui->keyLabel->show();
         ui->keyInput->show();
         ui->keyInput->setText(encoder->getKey().toHex());
 
-        QMessageBox::information(this, "Результат шифрования", "Файл был успешно зашифрован.\nРезультат шифрования был сохранен в выбранном для него файле.");
+        QMessageBox::information(this, "Результат шифрования", "Файл " + inputFileName + " был успешно зашифрован.\nРезультат шифрования был сохранен в файле " + outFileName + ".");
     }
     else
     {
-        QMessageBox::critical(this, "Результат шифрования", "Ошибка! Не удалось зашифровать файл.");
+        QMessageBox::critical(this, "Результат шифрования", "Ошибка! Не удалось зашифровать файл " + inputFileName + ".");
     }
 }
 

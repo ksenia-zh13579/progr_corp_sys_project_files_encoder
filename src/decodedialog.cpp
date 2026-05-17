@@ -12,6 +12,7 @@ DecodeDialog::DecodeDialog(QWidget *parent)
 
     ui->decodeBtn->setEnabled(false);
     ui->indicatorLabel->hide();
+    ui->keyInput->setEchoMode(QLineEdit::Password);
 
     connect(this, SIGNAL(allEntered()), SLOT(onAllEntered()));
     connect(decoder, SIGNAL(errorMessage(QString)), this, SLOT(onError(QString)));
@@ -92,15 +93,22 @@ void DecodeDialog::on_decodeBtn_clicked()
 
     bool result = decoder->decryptFile(inPath, outPath);
 
-
+    QString inputFileName = ui->fileName->text();
+    QString outFileName = ui->resultName->text();
 
     if (result)
     {
-        QMessageBox::information(this, "Результат дешифрования", "Файл " + inPath + " был успешно дешифрован.\nРезультат дешифрования был сохранен в файле " + outPath + ".");
+        QMessageBox::information(this, "Результат дешифрования", "Файл " + inputFileName + " был успешно дешифрован.\nРезультат дешифрования был сохранен в файле " + outFileName + ".");
     }
     else
     {
-        QMessageBox::critical(this, "Результат дешифрования", "Ошибка! Не удалось дешифровать файл " + inPath + ".");
+        QMessageBox::critical(this, "Результат дешифрования", "Ошибка! Не удалось дешифровать файл " + inputFileName + ".");
     }
+}
+
+
+void DecodeDialog::on_keyInput_returnPressed()
+{
+    on_keyInput_editingFinished();
 }
 

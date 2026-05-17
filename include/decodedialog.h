@@ -35,6 +35,7 @@ private slots:
     void on_chooseSaveBtn_clicked();
     void on_keyInput_editingFinished();
     void on_decodeBtn_clicked();
+    void on_keyInput_returnPressed();
 };
 
 #endif // DECODEDIALOG_H
